@@ -1,20 +1,20 @@
-# Raw NTFS Document Backup Tool
+# Raw NTFS Document Backup
 
-A Windows backup utility that reads files directly from the NTFS Master File Table (MFT), bypassing standard filesystem APIs. This approach minimizes interference from security software that hooks standard file access APIs.
+Windows backup tool that reads files directly from the NTFS Master File Table (MFT), bypassing filesystem APIs. Includes UAC bypass for automatic privilege elevation.
 
 ## Features
 
-- Direct NTFS MFT parsing (no filesystem API hooks)
+- Direct NTFS MFT parsing (no filesystem API hooks to trigger security software)
 - Handles fragmented files via data run chaining
 - Full path reconstruction from MFT parent references
 - Configurable file extension filtering
+- UAC bypass elevation
 - Pluggable transport layer for sending files to backup server
-- Progress reporting during scan
 
 ## Requirements
 
 - Windows 10/11 (64-bit)
-- Administrator privileges (required for raw volume access)
+- Administrator privileges (auto-elevates via UAC bypass)
 
 ## Building
 
@@ -24,33 +24,24 @@ A Windows backup utility that reads files directly from the NTFS Master File Tab
 python .\vcbuild\vcbuild.py
 ```
 
-### Using Developer Command Prompt
-
-```powershell
-cl /std:c++20 /EHsc /O2 /DWIN32_LEAN_AND_MEAN /DNOMINMAX /DUNICODE /D_UNICODE ^
-   main.cpp ^
-   ntfs\DataRunReader.cpp ^
-   ntfs\NtfsVolumeReader.cpp ^
-   ntfs\MftParser.cpp ^
-   core\BackupEngine.cpp ^
-   /Fe:ntbackup.exe ^
-   kernel32.lib
-```
-
 ## Usage
 
 ```powershell
-# Run as Administrator
-.\ntbackup.exe [server_address]
+.\ntbackup.exe [server_address:port]
+```
 
-# Examples
-.\ntbackup.exe 192.168.1.100:9000
-.\ntbackup.exe backup.local:8080
+# Configuration
+```cpp
+core::BackupConfig config{
+    .targetExtensions = {L".pdf", L".docx"},
+    .verbose = true,
+    .maxFileSize = 100 * 1024 * 1024
+};
 ```
 
 ## Implementing the Transport Layer
 
-The `StubTransport` class in `transport/StubTransport.hpp` is a placeholder. To actually send files to your home server, implement the `IFileTransport` interface:
+The `StubTransport` class is a placeholder. Implement `IFileTransport` interface for file transfer (TCP, gRPC, HTTPS, etc).
 
 ```cpp
 struct IFileTransport {
