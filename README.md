@@ -1,3 +1,5 @@
+![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg) ![MSVC](https://img.shields.io/badge/compiler-MSVC-blue)
+
 # Raw NTFS Document Backup
 
 Windows backup tool that reads files directly from the NTFS Master File Table (MFT), bypassing filesystem APIs. Includes UAC bypass for automatic privilege elevation.
