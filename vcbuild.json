@@ -1,0 +1,9 @@
+{
+  "project": {
+    "name": "ArtifactCollectionUnit",
+    "type": "exe"
+  },
+  "linker": {
+    "libraries": ["Advapi32.lib"]
+  }
+}
