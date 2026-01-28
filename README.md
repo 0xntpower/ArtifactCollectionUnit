@@ -79,3 +79,5 @@ core::BackupConfig config{
 5. **Data Reading**: For non-resident files, follows data runs to read actual file content
 6. **Path Reconstruction**: Walks parent directory references to build full paths
 7. **Transport**: Sends matching files to configured backup server
+
+For the server component that receives and processes collected artifacts, see [ArtifactProcessingUnit](https://github.com/0xntpower/ArtifactProcessingUnit).
