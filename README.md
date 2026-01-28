@@ -1,6 +1,6 @@
-# NTBackup - Raw NTFS Document Backup Tool
+# Raw NTFS Document Backup Tool
 
-A C++20 Windows backup utility that reads files directly from the NTFS Master File Table (MFT), bypassing standard filesystem APIs. This approach minimizes interference from security software that hooks standard file access APIs.
+A Windows backup utility that reads files directly from the NTFS Master File Table (MFT), bypassing standard filesystem APIs. This approach minimizes interference from security software that hooks standard file access APIs.
 
 ## Features
 
@@ -14,24 +14,19 @@ A C++20 Windows backup utility that reads files directly from the NTFS Master Fi
 ## Requirements
 
 - Windows 10/11 (64-bit)
-- Visual Studio 2022 with C++20 support
-- CMake 3.20+
 - Administrator privileges (required for raw volume access)
 
 ## Building
 
-### Using CMake + Visual Studio
+# Using vcbuild
 
 ```powershell
-mkdir build
-cd build
-cmake .. -G "Visual Studio 17 2022" -A x64
-cmake --build . --config Release
+python .\vcbuild\vcbuild.py
 ```
 
 ### Using Developer Command Prompt
 
-```batch
+```powershell
 cl /std:c++20 /EHsc /O2 /DWIN32_LEAN_AND_MEAN /DNOMINMAX /DUNICODE /D_UNICODE ^
    main.cpp ^
    ntfs\DataRunReader.cpp ^
